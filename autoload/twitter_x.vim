@@ -1,6 +1,7 @@
 let s:x="𝕏"
 let s:t="twitter"
 let s:s=10
+let s:flag=v:false
 
 function twitter_x#Replace()
   let p=getcurpos()
@@ -12,10 +13,16 @@ function twitter_x#Start()
   call timer_start(s:s,function("s:loop"))
 endfunction
 
+function twitter_x#Stop()
+  let s:flag=v:true
+endfunction
+
 function s:loop(timer)
   try
     call twitter_x#Replace()
   catch
   endtry
-  call timer_start(s:s,function("s:loop"))
+  if s:flag
+    call timer_start(s:s,function("s:loop"))
+  endif
 endfunction
